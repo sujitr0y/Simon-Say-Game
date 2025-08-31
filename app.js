@@ -48,7 +48,7 @@ function checkAnswer(idx) {
   if (playerSeq[idx] === gameSeq[idx]) {
     // console.log("same value");
     if (playerSeq.length === gameSeq.length) {
-      setTimeout(levelUp, 1000);
+      setTimeout(levelUp, 800);
     }
   } else {
     reset();
@@ -71,8 +71,13 @@ for (btn of allBtns) {
 }
 
 function reset() {
-    h3.innerText = "Game Over, Press Any Key To Restart";started = false;
+    h3.innerHTML = `Game Over, your score was ${level}<br> Press Any Key To Restart!`;
+    started = false;
     level = 0;
     gameSeq = [];
     playerSeq = [];
+    document.querySelector('body').style.backgroundColor = 'red';
+    setTimeout(function() {
+        document.querySelector('body').style.backgroundColor = '';
+    }, 200);
 }
