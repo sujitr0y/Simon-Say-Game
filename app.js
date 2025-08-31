@@ -42,6 +42,7 @@ function levelUp() {
   gameSeq.push(randColor);
   console.log(gameSeq);
   gameFlash(randBtn);
+  updateHighScore();
 }
 
 function checkAnswer(idx) {
@@ -61,7 +62,7 @@ function btnPress() {
 
   userColor = btn.getAttribute("id");
   playerSeq.push(userColor);
-//   console.log(btn);
+  //   console.log(btn);
   checkAnswer(playerSeq.length - 1);
 }
 
@@ -71,13 +72,26 @@ for (btn of allBtns) {
 }
 
 function reset() {
-    h3.innerHTML = `Game Over, your score was ${level}<br> Press Any Key To Restart!`;
-    started = false;
-    level = 0;
-    gameSeq = [];
-    playerSeq = [];
-    document.querySelector('body').style.backgroundColor = 'red';
-    setTimeout(function() {
-        document.querySelector('body').style.backgroundColor = '';
-    }, 200);
+  h3.innerHTML = `Game Over, your score was ${level}<br> Press Any Key To Restart!`;
+  started = false;
+  level = 0;
+
+  gameSeq = [];
+  playerSeq = [];
+  document.querySelector("body").style.backgroundColor = "red";
+  setTimeout(function () {
+    document.querySelector("body").style.backgroundColor = "";
+  }, 200);
+  
+}
+
+function updateHighScore() {
+  // let highScore = 0;
+  let highScoreDisplay = document.querySelector(".highscore");
+  let highScore = localStorage.getItem("highScore") || 0;
+  if (level > highScore) {
+    highScore = level;
+    localStorage.setItem("highScore", highScore);
+    highScoreDisplay.innerText = `Highest Score: ${highScore}`;
+  }
 }
