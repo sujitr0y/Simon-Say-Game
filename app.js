@@ -1,0 +1,78 @@
+let gameSeq = [];
+let playerSeq = [];
+
+let started = false;
+let level = 0;
+let h3 = document.querySelector("h3");
+let btns = ["red", "blue", "green", "yellow"];
+
+document.addEventListener("keypress", function () {
+  if (started === false) {
+    console.log("Game Started");
+    started = true;
+
+    levelUp();
+  }
+});
+
+function gameFlash(btn) {
+  btn.classList.add("flash");
+  setTimeout(function () {
+    btn.classList.remove("flash");
+  }, 500);
+}
+
+function userFlash(btn) {
+  btn.classList.add("userFlash");
+  setTimeout(function () {
+    btn.classList.remove("userFlash");
+  }, 500);
+}
+
+function levelUp() {
+  playerSeq = [];
+  level++;
+  h3.innerText = `Level ${level}`;
+  let randIdx = Math.floor(Math.random() * 3);
+  let randColor = btns[randIdx];
+  let randBtn = document.querySelector(`.${randColor}`);
+  // console.log(randBtn);
+  // console.log(randColor);
+  // console.log(randIdx)
+  gameSeq.push(randColor);
+  console.log(gameSeq);
+  gameFlash(randBtn);
+}
+
+function checkAnswer(idx) {
+  if (playerSeq[idx] === gameSeq[idx]) {
+    // console.log("same value");
+    if (playerSeq.length === gameSeq.length) {
+      setTimeout(levelUp, 1000);
+    }
+  } else {
+    reset();
+  }
+}
+
+function btnPress() {
+  let btn = this;
+  userFlash(btn);
+
+  userColor = btn.getAttribute("id");
+  playerSeq.push(userColor);
+//   console.log(btn);
+  checkAnswer(playerSeq.length - 1);
+}
+
+let allBtns = document.querySelectorAll(".btn");
+for (btn of allBtns) {
+  btn.addEventListener("click", btnPress);
+}
+
+function reset() {
+    h3.innerText = "Game Over, Press Any Key To Restart";started = false;
+    level = 0;
+    gameSeq = [];
+    playerSeq = [];
+}
